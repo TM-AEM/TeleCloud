@@ -26,7 +26,7 @@ dependencies:
   path_provider: ^2.1.3
 
   # 5. حفظ الملفات في مجلد التنزيلات العام عبر MediaStore API
-  media_store_plus: ^0.4.1
+  media_store_plus: ^0.1.3
 
   # 6. إدارة الحالة (State Management)
   provider: ^6.1.2
