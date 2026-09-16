@@ -1,0 +1,86 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id                  String    @id @default(uuid())
+  email               String    @unique
+  username            String    @unique
+  password            String    // كلمة المرور مشفرة بواسطة bcrypt
+  // حقول بيانات تيليجرام مشفرة بـ AES في قاعدة البيانات (حماية البيانات الخاصة لكل مستخدم)
+  telegramApiId       String?   @map("telegram_api_id")
+  telegramApiHash     String?   @map("telegram_api_hash")
+  telegramBotToken    String?   @map("telegram_bot_token")
+  telegramChannelId   String?   @map("telegram_channel_id")
+  isTelegramConfigured Boolean  @default(false) @map("is_telegram_configured")
+  folders             Folder[]
+  files               File[]
+  createdAt           DateTime  @default(now()) @map("created_at")
+  updatedAt           DateTime  @updatedAt @map("updated_at")
+
+  @@map("users")
+}
+
+model Folder {
+  id        String   @id @default(uuid())
+  name      String
+  userId    String   @map("user_id")
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  parentId  String?  @map("parent_id")
+  parent    Folder?  @relation("FolderHierarchy", fields: [parentId], references: [id], onDelete: Cascade)
+  children  Folder[] @relation("FolderHierarchy")
+  files     File[]
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@index([userId])
+  @@index([userId, parentId])
+  @@map("folders")
+}
+
+model File {
+  id                   String   @id @default(uuid())
+  name                 String
+  size                 BigInt   // الحجم بالبايت
+  mimeType             String   @map("mime_type")
+  userId               String   @map("user_id")
+  user                 User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  telegramFileId       String   @map("telegram_file_id")
+  telegramFileUniqueId String?  @map("telegram_file_unique_id")
+  telegramMessageId    Int      @map("telegram_message_id") // معرّف الرسالة في تيليجرام للحذف
+  parentFolderId       String?     @map("parent_folder_id")
+  parentFolder         Folder?     @relation(fields: [parentFolderId], references: [id], onDelete: Cascade)
+  shareLinks           ShareLink[]
+  searchVector         Unsupported("tsvector")? @map("search_vector")
+  createdAt            DateTime    @default(now()) @map("created_at")
+  updatedAt            DateTime    @updatedAt @map("updated_at")
+
+  @@index([userId])
+  @@index([userId, parentFolderId])
+  @@index([telegramFileId])
+  @@map("files")
+}
+
+model ShareLink {
+  id              String    @id @default(uuid())
+  fileId          String    @map("file_id")
+  file            File      @relation(fields: [fileId], references: [id], onDelete: Cascade)
+  token           String    @unique
+  expiresAt       DateTime  @map("expires_at")
+  createdByUserId String    @map("created_by_user_id")
+  maxDownloads    Int?      @map("max_downloads")
+  downloadCount   Int       @default(0) @map("download_count")
+  isRevoked       Boolean   @default(false) @map("is_revoked")
+  createdAt       DateTime  @default(now()) @map("created_at")
+
+  @@index([token])
+  @@index([fileId])
+  @@index([createdByUserId])
+  @@index([expiresAt])
+  @@map("share_links")
+}

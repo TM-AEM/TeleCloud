@@ -1,0 +1,6 @@
+{
+  "name": "Telegram Cloud Storage",
+  "description": "Cloud storage backend API using Node.js, Express, TypeScript, Telegram Bot API, and PostgreSQL Prisma",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- ============================================================================== -->
+    <!-- صلاحيات الوصول للوسائط والتخزين (Media & Storage Permissions)                     -->
+    <!-- ============================================================================== -->
+
+    <!-- 1. الإنترنت: للاتصال بالسيرفر ورفع وتنزيل الملفات -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <!-- 2. إعادة جدولة مهام WorkManager تلقائياً عند إعادة تشغيل الجهاز -->
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
+    <!-- 3. إرسال الإشعارات المحلية بعد انتهاء النسخ الاحتياطي (أندرويد 13 فأعلى API 33+) -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+
+    <!-- 4. خدمات المزامنة في الخلفية إن لزم -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+
+    <!-- 2. أندرويد 13 فأعلى (Android 13+ / API 33+): -->
+    <!-- قراءة الصور فقط من مساحة تخزين الوسائط الخاصة بالمستخدم، بدون الحاجة لصلاحية التخزين الكاملة -->
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+
+    <!-- قراءة مقاطع الفيديو فقط من مساحة تخزين الوسائط -->
+    <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" />
+
+    <!-- قراءة الملفات الصوتية لأندرويد 13 فأعلى -->
+    <uses-permission android:name="android.permission.READ_MEDIA_AUDIO" />
+
+    <!-- 3. الإصدارات الأقدم من أندرويد 13 (Android 12 فما دون، حتى API 32): -->
+    <!-- قراءة أي ملف من التخزين الخارجي. تم تعيين maxSdkVersion="32" لكي تتوقف هذه الصلاحية تلقائياً في API 33+ وتُستبدل بـ READ_MEDIA_* -->
+    <uses-permission
+        android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="32" />
+
+    <!-- 4. الإصدارات الأقدم من أندرويد 10/11 (حتى API 28 أو 29): -->
+    <!-- الكتابة على التخزين الخارجي. في أندرويد 10 (API 29) وما بعده تم تطبيق Scoped Storage -->
+    <!-- وفي أندرويد 11 (API 30+) تم إلغاء تأثير هذه الصلاحية للمجلدات العامة واستبدالها بـ MediaStore API -->
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="29"
+        tools:ignore="ScopedStorage" />
+
+    <!-- 5. صلاحية إدارة التخزين الشاملة (All Files Access - MANAGE_EXTERNAL_STORAGE): -->
+    <!-- تُستخدم فقط لو كان التطبيق يحتاج للوصول المباشر والكتابة في مسار المجلدات العامة مثل /storage/emulated/0/Download مباشرة عبر كود File(path).writeBytes() -->
+    <!-- تنبيه بالغ الأهمية (Google Play Policy): -->
+    <!-- ترفض شركة جوجل نشر أي تطبيق يستخدم هذه الصلاحية إلا إذا كان التطبيق الأساسي هو مدير ملفات (File Manager)، تطبيق نسخ احتياطي، أو مضاد فيروسات. -->
+    <!-- لتطبيقات التخزين السحابي والتنزيل العادية، يُمنع استخدامها ويُوصى رسمياً باستخدام MediaStore API أو Storage Access Framework (SAF) لحفظ الملفات في مجلد التنزيلات العام بدون طلب أي صلاحية خطرة. -->
+    <uses-permission
+        android:name="android.permission.MANAGE_EXTERNAL_STORAGE"
+        tools:ignore="ScopedStorage" />
+
+    <application
+        android:allowBackup="true"
+        android:requestLegacyExternalStorage="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="File Manager"
+        android:theme="@style/Theme.MyApplication">
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"
+            android:theme="@style/Theme.MyApplication">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>
