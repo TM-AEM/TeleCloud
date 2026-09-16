@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+import 'package:intl/intl.dart' hide TextDirection;
 import 'package:photo_manager/photo_manager.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'core/backup/backup_worker.dart';
@@ -742,7 +742,7 @@ class _BackupSettingsScreenState extends State<BackupSettingsScreen> {
                       style: TextStyle(
                         fontSize: 11,
                         height: 1.35,
-                        color: Colors.amber.shade950,
+                        color: Colors.amber.shade900,
                       ),
                     ),
                   ),

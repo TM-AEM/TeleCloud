@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+import 'package:intl/intl.dart' hide TextDirection;
 import 'package:cloud_storage_file_manager/core/services/share_service.dart';
 
 /// شاشة استعراض روابط المشاركة النشطة وإدارتها

@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:media_store_plus/media_store_plus.dart';
 import 'package:http/http.dart' as http;
+import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'core/backup/backup_worker.dart';
 import 'core/permissions/permission_service.dart';
@@ -50,7 +51,7 @@ class CloudFileItem {
     required this.downloadUrl,
     this.isFolder = false,
     required this.updatedAt,
-  }) War;
+  });
 
   String get readableSize {
     if (sizeBytes < 1024) return '$sizeBytes B';
@@ -269,7 +270,7 @@ class FileBrowserProvider extends ChangeNotifier {
       request.files.add(multipartFile);
 
       final streamedResponse = await request.send().timeout(const Duration(seconds: 45));
-      final response = await http.Response.fromStream(streammedResponse);
+      final response = await http.Response.fromStream(streamedResponse);
 
       if (response.statusCode >= 200 && response.statusCode < 300) {
         addUploadedFile(file, customName: fileName);

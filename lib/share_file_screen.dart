@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:share_plus/share_plus.dart';
-import 'package:intl/intl.dart';
+import 'package:intl/intl.dart' hide TextDirection;
 import 'package:cloud_storage_file_manager/core/services/share_service.dart';
 import 'package:cloud_storage_file_manager/active_shares_screen.dart';
 

@@ -241,7 +241,7 @@ class _TelegramSetupScreenState extends State<TelegramSetupScreen> {
                                 'تطبيقنا يستخدم خوادم وقنوات تيليجرام الخاصة بك لتخزين ملفاتك بأمان ومجاناً. يرجى إدخال بيانات الربط للبدء.',
                                 style: TextStyle(
                                   fontSize: 12,
-                                  color: Colors.blue.shade950,
+                                  color: Colors.blue.shade900,
                                   height: 1.35,
                                 ),
                               ),
