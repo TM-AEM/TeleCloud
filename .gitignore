@@ -16,3 +16,16 @@
 local.properties
 .env
 debug.keystore
+
+# Flutter / Dart
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+build/
+android/.gradle/
+
+# Node / Backend
+backend/node_modules/
+backend/dist/
+backend/.env
